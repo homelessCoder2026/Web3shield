@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Web3 Shield",
+  "version": "1.0",
+  "description": "Detect fake crypto sites and scams.",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "applications": {
+    "gecko": {
+      "id": "web3shield@local"
+    }
+  }
+}
