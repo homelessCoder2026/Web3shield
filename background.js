@@ -96,3 +96,30 @@ browser.runtime.onMessage.addListener((msg) => {
   }
 });
 
+
+browser.webNavigation.onCompleted.addListener(async (details) => {
+  const url = details.url;
+
+  const isSuspicious = !legitDomains.some(domain => url.includes(domain));
+
+  if (isSuspicious) {
+    browser.tabs.executeScript(details.tabId, {
+      code: `
+        const banner = document.createElement('div');
+        banner.style.position = 'fixed';
+        banner.style.top = '0';
+        banner.style.left = '0';
+        banner.style.width = '100%';
+        banner.style.padding = '12px';
+        banner.style.background = '#ff3b30';
+        banner.style.color = 'white';
+        banner.style.fontSize = '16px';
+        banner.style.fontWeight = 'bold';
+        banner.style.zIndex = '999999';
+        banner.style.textAlign = 'center';
+        banner.innerText = '⚠️ Web3Shield: This site may be dangerous.';
+        document.body.appendChild(banner);
+      `
+    });
+  }
+});
